@@ -11,7 +11,7 @@ import {CloseIcon} from "@chakra-ui/icons";
 
 
 // TODO - Hide, make secret
-const mapboxKey = import.meta.env.VITE_MAPBOX_API_KEY;
+const mapboxKey = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = mapboxKey;
 
 const ParameterInputs: React.FC = () => {
