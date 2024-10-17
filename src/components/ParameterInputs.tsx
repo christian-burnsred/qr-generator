@@ -8,9 +8,11 @@ import SummaryTable from "./SummaryTable.tsx";
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {CloseIcon} from "@chakra-ui/icons";
+import {db} from "../data/firebase.tsx";
+import {addDoc, collection} from "firebase/firestore";
+import {useToast} from '@chakra-ui/react';
 
 
-// TODO - Hide, make secret
 const mapboxKey = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = mapboxKey;
 
@@ -35,6 +37,8 @@ const ParameterInputs: React.FC = () => {
     const summaryTableRef = useRef<HTMLTableElement>(null);
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    const toast = useToast()
 
     useEffect(() => {
         const handleResize = () => {
@@ -176,6 +180,49 @@ const ParameterInputs: React.FC = () => {
         setSelectedEquipment(null);
     };
 
+    const createMarker = async () => {
+        if (selectedOperatingContext && selectedControl && selectedEquipment &&
+            selectedControlFramework && latLng && selectedOperation && qrCodeUrl) {
+            try {
+                await addDoc(collection(db, "markers"), {
+                    context: operatingContexts[selectedControlFramework][selectedOperatingContext].operating_context,
+                    control: controls[selectedControl].label,
+                    equipment: equipment[selectedOperatingContext][selectedEquipment].equipment,
+                    framework: controlFrameworks[selectedControl][selectedControlFramework].control,
+                    location: latLng,
+                    operation: operations[selectedOperation].site,
+                    url: qrCodeUrl,
+                });
+                toast({
+                    title: 'Marker created.',
+                    description: 'Marker successfully created!',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                });
+            } catch (e) {
+                toast({
+                    title: 'Error adding marker.',
+                    description: `Error: ${e.message}`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                });
+            }
+        } else {
+            toast({
+                title: 'Input Error.',
+                description: 'Error - Fill all inputs to create a marker.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'top',
+            });
+        }
+    };
+
     return (
         <HStack
             width={"100vw"}
@@ -252,7 +299,7 @@ const ParameterInputs: React.FC = () => {
             </Box>
 
             <Box position="relative" width={screenWidth < 950 ? "100%" : "50%"} height="92vh" padding={4}>
-                <QRGenerator value={qrCodeUrl} summaryTableRef={summaryTableRef}/>
+                <QRGenerator value={qrCodeUrl} summaryTableRef={summaryTableRef} createMarker={createMarker}/>
                 <SummaryTable
                     ref={summaryTableRef}
                     selectedOperation={selectedOperation}

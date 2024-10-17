@@ -7,9 +7,10 @@ import {PDFDocument} from "pdf-lib";
 interface QrGeneratorProps {
     value: string;
     summaryTableRef: React.RefObject<HTMLDivElement>;
+    createMarker: () => Promise<void>;
 }
 
-const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef}) => {
+const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef, createMarker}) => {
     const qrCodeRef = useRef<HTMLDivElement>(null);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -80,6 +81,11 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef}) => {
         window.open(value, '_blank', 'noopener,noreferrer');
     };
 
+    const openARApp = () => {
+        window.open('https://christian-burnsred.github.io/', '_blank', 'noopener,noreferrer');
+    };
+
+
     return (
         <Flex
             bg={"gray.100"}
@@ -113,11 +119,18 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef}) => {
                 {screenWidth > 1060 ?
                     <VStack spacing={4} width="100%">
                         <Button
+                            colorScheme='purple'
+                            onClick={openARApp}
+                            width="100%"
+                        >
+                            Open AR App
+                        </Button>
+                        <Button
                             colorScheme='blue'
                             onClick={openInBrowser}
                             width="100%"
                         >
-                            Open in Browser
+                            Open 'Flex' App
                         </Button>
                         <Button
                             colorScheme='orange'
@@ -129,36 +142,46 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef}) => {
                         <Button
                             colorScheme='green'
                             width="100%"
+                            onClick={createMarker}
                         >
                             Create Marker
                         </Button>
                     </VStack>
                     :
-                    <HStack spacing={1} width="100%">
-                        <Button
-                            colorScheme='blue'
-                            onClick={openInBrowser}
-                            width="100%"
-                            size={"sm"}
-                        >
-                            Open in Browser
-                        </Button>
-                        <Button
-                            colorScheme='orange'
-                            onClick={downloadPdf}
-                            width="100%"
-                            size={"sm"}
-                        >
-                            Download as PDF
-                        </Button>
-                        <Button
-                            colorScheme='green'
-                            width="100%"
-                            size={"sm"}
-                        >
-                            Create Marker
-                        </Button>
-                    </HStack>
+                    <Box>
+                        <HStack padding={1} width="100%">
+                            <Button
+                                colorScheme='purple'
+                                onClick={openARApp}
+                                width="100%"
+                            >
+                                Open AR App
+                            </Button>
+                            <Button
+                                colorScheme='blue'
+                                onClick={openInBrowser}
+                                width="100%"
+                            >
+                                Open in Browser
+                            </Button>
+                        </HStack>
+                        <HStack padding={1} width="100%">
+                            <Button
+                                colorScheme='orange'
+                                onClick={downloadPdf}
+                                width="100%"
+                            >
+                                Download as PDF
+                            </Button>
+                            <Button
+                                colorScheme='green'
+                                width="100%"
+                                onClick={createMarker}
+                            >
+                                Create Marker
+                            </Button>
+                        </HStack>
+                    </Box>
                 }
             </Box>
         </Flex>
