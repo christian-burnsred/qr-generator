@@ -201,7 +201,7 @@ const ParameterInputs: React.FC = () => {
                     isClosable: true,
                     position: 'top',
                 });
-            } catch (e) {
+            } catch (e: any) {
                 toast({
                     title: 'Error adding marker.',
                     description: `Error: ${e.message}`,
