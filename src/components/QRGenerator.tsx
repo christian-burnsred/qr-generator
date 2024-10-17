@@ -33,7 +33,7 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef, create
             const qrCodeImgData = qrCodeCanvas.toDataURL("image/png");
             const summaryTableImgData = summaryTableCanvas.toDataURL("image/png");
 
-            const existingPdfBytes = await fetch('src/components/qr/qr_frame.pdf').then(res => res.arrayBuffer());
+            const existingPdfBytes = await fetch('qr_frame.pdf').then(res => res.arrayBuffer());
             const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
             const page = pdfDoc.getPages()[0];
@@ -162,7 +162,7 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef, create
                                 onClick={openInBrowser}
                                 width="100%"
                             >
-                                Open in Browser
+                                Open 'Flex' App
                             </Button>
                         </HStack>
                         <HStack padding={1} width="100%">

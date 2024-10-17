@@ -19,6 +19,10 @@ interface SummaryProps {
 
 const SummaryTable = forwardRef<HTMLTableElement, SummaryProps>(({selectedOperation, selectedControl, selectedControlFramework,
                           selectedOperatingContext, selectedEquipment, locationCoords}, ref) => {
+
+    console.log(selectedControl)
+    console.log(selectedControlFramework)
+
     return (
         <Table ref={ref} variant="simple" size={'md'}>
             <Thead>

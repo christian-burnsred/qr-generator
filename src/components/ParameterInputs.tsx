@@ -180,6 +180,28 @@ const ParameterInputs: React.FC = () => {
         setSelectedEquipment(null);
     };
 
+    const handleControlChange = (option: { value: string } | null) => {
+        setSelectedControl(option?.value || null);
+        setSelectedControlFramework(null);
+        setSelectedOperatingContext(null);
+        setSelectedEquipment(null);
+    };
+
+    const handleFrameworkChange = (option: { value: string } | null) => {
+        setSelectedControlFramework(option?.value || null);
+        setSelectedOperatingContext(null);
+        setSelectedEquipment(null);
+    };
+
+    const handleContextChange = (option: { value: string } | null) => {
+        setSelectedOperatingContext(option?.value || null);
+        setSelectedEquipment(null);
+    };
+
+    const handleEquipmentChange = (option: { value: string } | null) => {
+        setSelectedEquipment(option?.value || null);
+    };
+
     const createMarker = async () => {
         if (selectedOperatingContext && selectedControl && selectedEquipment &&
             selectedControlFramework && latLng && selectedOperation && qrCodeUrl) {
@@ -237,34 +259,39 @@ const ParameterInputs: React.FC = () => {
                     options={operationOptions}
                     value={operationOptions.find(option => option.value === selectedOperation) || null}
                     onChange={handleOperationChange}
+                    isClearable
                 />
                 <Text as='b' fontSize={'sm'}>Controls</Text>
                 <Select
                     options={controlOptions}
                     value={controlOptions.find(option => option.value === selectedControl) || null}
                     isDisabled={!selectedOperation}
-                    onChange={(option) => setSelectedControl(option?.value || null)}
+                    onChange={handleControlChange}
+                    isClearable
                 />
                 <Text as='b' fontSize={'sm'}>Control Framework</Text>
                 <Select
                     options={controlFrameworkOptions}
                     value={controlFrameworkOptions.find(option => option.value === selectedControlFramework) || null}
                     isDisabled={!selectedControl}
-                    onChange={(option) => setSelectedControlFramework(option?.value || null)}
+                    onChange={handleFrameworkChange}
+                    isClearable
                 />
                 <Text as='b' fontSize={'sm'}>Operating Context</Text>
                 <Select
                     options={operatingContextOptions}
                     value={operatingContextOptions.find(option => option.value === selectedOperatingContext) || null}
                     isDisabled={!selectedControlFramework}
-                    onChange={(option) => setSelectedOperatingContext(option?.value || null)}
+                    onChange={handleContextChange}
+                    isClearable
                 />
                 <Text as='b' fontSize={'sm'}>Equipment</Text>
                 <Select
                     options={equipmentOptions}
                     value={equipmentOptions.find(option => option.value === selectedEquipment) || null}
                     isDisabled={!selectedOperatingContext}
-                    onChange={(option) => setSelectedEquipment(option?.value || null)}
+                    onChange={handleEquipmentChange}
+                    isClearable
                 />
 
                 {/* Location Input */}
