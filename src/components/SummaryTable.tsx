@@ -10,18 +10,17 @@ import {forwardRef} from "react";
 
 interface SummaryProps {
     selectedOperation: string | null,
+    selectedFormType: string | null,
     selectedControl: string | null,
     selectedControlFramework: string | null,
     selectedOperatingContext: string | null,
     selectedEquipment: string | null,
+    selectedAssignee: string | null | undefined,
     locationCoords:  { lat: number, lng: number } | null
 }
 
-const SummaryTable = forwardRef<HTMLTableElement, SummaryProps>(({selectedOperation, selectedControl, selectedControlFramework,
-                          selectedOperatingContext, selectedEquipment, locationCoords}, ref) => {
-
-    console.log(selectedControl)
-    console.log(selectedControlFramework)
+const SummaryTable = forwardRef<HTMLTableElement, SummaryProps>(({selectedOperation, selectedFormType, selectedControl, selectedControlFramework,
+                          selectedOperatingContext, selectedEquipment, selectedAssignee, locationCoords}, ref) => {
 
     return (
         <Table ref={ref} variant="simple" size={'md'}>
@@ -35,6 +34,10 @@ const SummaryTable = forwardRef<HTMLTableElement, SummaryProps>(({selectedOperat
                 <Tr>
                     <Td>Operation</Td>
                     <Td>{selectedOperation ? operations[selectedOperation].site : null}</Td>
+                </Tr>
+                <Tr>
+                    <Td>Form Type</Td>
+                    <Td>{selectedFormType ? selectedFormType : null}</Td>
                 </Tr>
                 <Tr>
                     <Td>Control</Td>
@@ -51,6 +54,10 @@ const SummaryTable = forwardRef<HTMLTableElement, SummaryProps>(({selectedOperat
                 <Tr>
                     <Td>Equipment</Td>
                     <Td>{selectedEquipment && selectedOperatingContext ? equipment[selectedOperatingContext][selectedEquipment].equipment : null}</Td>
+                </Tr>
+                <Tr>
+                    <Td>Assignee</Td>
+                    <Td>{selectedAssignee ? selectedAssignee : null}</Td>
                 </Tr>
                 <Tr>
                     <Td>Location</Td>

@@ -56,12 +56,12 @@ const QrGenerator: React.FC<QrGeneratorProps> = ({value, summaryTableRef, create
 
             // Add SummaryTable to the PDF
             const summaryTableImage = await pdfDoc.embedPng(summaryTableImgData);
-            const summaryTableWidth = summaryTableImage.size().width / 4;
-            const summaryTableHeight = summaryTableImage.size().height / 4;
+            const summaryTableWidth = summaryTableImage.size().width / 5;
+            const summaryTableHeight = summaryTableImage.size().height / 5;
 
             page.drawImage(summaryTableImage, {
-                x: 20,
-                y: 20,
+                x: 10,
+                y: 10,
                 width: summaryTableWidth,
                 height: summaryTableHeight,
             });
