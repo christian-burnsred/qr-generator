@@ -114,6 +114,20 @@ const ParameterInputs: React.FC = () => {
                 zoom: 14,
             });
 
+            // Add a solid blue dot for the user's location
+            const userMarkerElement = document.createElement('div');
+            userMarkerElement.className = 'user-marker';
+            userMarkerElement.style.backgroundColor = 'blue'; // Solid blue color
+            userMarkerElement.style.width = '15px'; // Adjust size
+            userMarkerElement.style.height = '15px'; // Adjust size
+            userMarkerElement.style.borderRadius = '50%'; // Make it circular
+            userMarkerElement.style.boxShadow = '0 0 10px rgba(0, 0, 255, 0.9)';
+
+            // Create the user marker and add it to the map
+            new mapboxgl.Marker(userMarkerElement)
+                .setLngLat([userLocation.lng, userLocation.lat])
+                .addTo(mapRef.current as mapboxgl.Map);
+
             mapRef.current.on('click', (e) => {
                 const coordinates = e.lngLat;
 
